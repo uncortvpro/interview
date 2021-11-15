@@ -68,5 +68,5 @@ class Tags{
 			}
 		}
 }
-$link1=new Tags('photos.html');//в скобках вписуйте желаемую ссылку(по умолчанию локальный файл)
+$link1=new Tags('https://nostalgic-euclid-8ce2b2.netlify.app/');//в скобках вписуйте желаемую ссылку(по умолчанию локальный файл)
 ?>
