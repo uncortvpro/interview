@@ -1,7 +1,24 @@
 <?
 include_once('simple_html_dom.php');
 class Tags{ 
-	function main($link){
+	private $link;
+	private $info;
+	public function __construct($link)
+	{
+		$this->link=$link;
+		$this->main();
+	}
+	private function get_link(){
+		return $this->link;
+	}
+	private function set_info($info){
+		$this->info=$info;
+	}
+	private function get_info(){
+		return $this->info;
+	}
+	private function main(){
+		$link=$this->get_link();
 		$a=0;
 		$img=0;
 		$html = file_get_html($link);
@@ -31,12 +48,25 @@ class Tags{
 		echo "Кол-во изображений(&ltimg&gt): ".$img.'<br>';
 
 		$info.="\nКол-во ссылок(<a>):$a\nКол-во изображений(<img>):$img\n\n\n\n\n";
-		$this->write($info);
+		$this->set_info($info);
+		$this->check();
 		}
-		function write($info){
-			file_put_contents("tags.txt",$info, FILE_APPEND);
+		private function write($info){
+			$move=file_put_contents("tags.txt",$info, FILE_APPEND);
+			if(!$move)
+			{
+				throw new Exception('Файл не обновлен');
+			}	
+		}
+		private function check(){
+			try{
+				$this->write($this->get_info());
+				echo "Файл успешно обновлен!";
+			}
+			catch(Exception $ex){
+				echo $ex->getMessage();
+			}
 		}
 }
-$link1=new Tags();
-$link1->main('photos.html');//в скобках вписуйте желаемую ссылку(по умолчанию локальный файл)
+$link1=new Tags('photos.html');//в скобках вписуйте желаемую ссылку(по умолчанию локальный файл)
 ?>
